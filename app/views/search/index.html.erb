@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Resultados para: "<%= params[:query].presence || 'todos los productos' %>"</h2>
+    <button class="btn btn-primary d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
+      Filtros
+    </button>
+  </div>
+
+  <div class="row">
+    <!-- Filtros -->
+    <div class="collapse d-md-block col-md-3 mb-4" id="filtrosCollapse">
+      <%= form_with url: search_path, method: :get, local: true do %>
+        <%= hidden_field_tag :query, params[:query] %>
+
+        <div class="mb-3">
+          <%= label_tag :tipo, "Categoría" %>
+          <%= select_tag :tipo, options_for_select(["", "ropa", "muebles", "tecnología", "libros", "otros"], params[:tipo]), class: "form-select" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :talle_ropa, "Talle de ropa" %>
+          <%= select_tag :talle_ropa, options_for_select(["", "XS", "S", "M", "L", "XL", "XXL"], params[:talle_ropa]), class: "form-select" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :talle_zapatilla, "Talle de zapatilla" %>
+          <%= select_tag :talle_zapatilla, options_for_select(["", 35, 36, 37, 38, 39, 40, 41, 42, 43], params[:talle_zapatilla]), class: "form-select" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :color, "Color" %>
+          <%= text_field_tag :color, params[:color], class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :precio, "Precio máximo" %>
+          <%= number_field_tag :precio, params[:precio], class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :distancia, "Distancia máxima (km)" %>
+          <%= number_field_tag :distancia, params[:distancia], class: "form-control" %>
+        </div>
+
+        <%= submit_tag "Filtrar", class: "btn btn-primary w-100" %>
+      <% end %>
+    </div>
+
+    <!-- Resultados -->
+    <div class="col-md-9">
+      <% if @products.any? %>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+          <% @products.each do |product| %>
+            <div class="col">
+              <%= render partial: "products/product_card", locals: { product: product } %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>No se encontraron productos.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

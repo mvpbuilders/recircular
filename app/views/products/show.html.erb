@@ -1,0 +1,127 @@
+<div class="container-fluid mt-5">
+  <div class="row">
+    <!-- Columna de imagen -->
+    <div class="col-12 col-lg-6 text-center">
+      <% if @product.images.attached? %>
+        <!-- Imagen principal -->
+        <div class="mb-3">
+          <%= image_tag @product.images.first.variant(resize_to_limit: [500, 500]),
+              class: "img-fluid rounded main-image",
+              id: "mainProductImage" %>
+        </div>
+
+        <!-- Miniaturas debajo -->
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+          <% @product.images.each_with_index do |image, index| %>
+            <%= image_tag image.variant(resize_to_limit: [80, 80]),
+                class: "img-thumbnail thumb-image #{'border border-primary' if index == 0}",
+                data: { large: url_for(image.variant(resize_to_limit: [500, 500])) },
+                onclick: "updateMainImage(this)",
+                style: "object-fit: cover; cursor: pointer;" %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= image_tag "ropa.png", class: "img-fluid rounded shadow", alt: "Imagen no disponible" %>
+      <% end %>
+    </div>
+
+    <!-- Info del producto -->
+    <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+      <p class="fs-4 fw-bold text-success mb-1">
+        $<%= number_with_delimiter(@product.precio, delimiter: ".") %>
+      </p>
+      <h4 class="fw-semibold mb-2"><%= @product.title %></h4>
+      <p class="text-muted mb-1 text-capitalize"><%= @product.description %></p>
+
+      <!-- Formulario de compra -->
+      <%= form_with model: @order, url: orders_path, method: :post, local: true, html: { data: { controller: "order-validation" } } do |f| %>
+        <%= f.hidden_field :product_id, value: @product.id, name: "order[product_id]" %>
+
+        <p class="mb-3 fs-5 text-dark">
+          Llega entre 5 y 7 días de realizada la compra por 
+          <span class="text-decoration-line-through text-secondary">$7.845</span> 
+          <span class="text-success fw-bold fs-5 ms-1">GRATIS (CABA y Gran Bs. As.)</span>
+        </p>
+
+        <p class="fw-semibold">Tu información de contacto</p>
+        <div class="mb-3">
+          <label for="order_email" class="form-label">Correo electrónico</label>
+          <%= email_field_tag "order[email]", nil, class: "form-control w-100", placeholder: "Email", required: true,
+                data: { order_validation_target: "email", action: "input->order-validation#validateEmail" } %>
+          <div data-order-validation-target="errorEmail" class="text-danger small mt-1"></div>
+        </div>
+
+        <div class="d-grid mt-4">
+          <%= submit_tag "Iniciar compra", class: "btn btn-primary rounded-4 fw-semibold" %>
+        </div>
+
+        <div class="payment-box text-center mt-4">
+          <p class="fw-semibold mb-3 text-secondary">
+            <i class="bi bi-shield-lock-fill me-1"></i> Pago seguro garantizado
+          </p>
+          <div class="payment-logo-group">
+            <%= image_tag "mercadopago1.svg", alt: "Mercado Pago", class: "payment-logo" %>
+            <%= image_tag "visa1.svg", alt: "Visa", class: "payment-logo" %>
+            <%= image_tag "mastercard1.svg", alt: "Mastercard", class: "payment-logo" %>
+          </div>
+        </div>
+        <p class="text-muted small mt-3 text-center">
+          Derecho de devolución o reclamo hasta 30 días desde la entrega
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Separador -->
+  <hr class="my-5">
+
+  <!-- FAQs -->
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="section-title text-center mb-5">Preguntas frecuentes</h2>
+        <div class="accordion" id="faqAccordion">
+          <% [
+            ["❓ ¿Qué es Recircular?", "Es una plataforma para comprar y vender cosas usadas de manera simple y confiable."],
+            ["📦 ¿Cuáles son los tiempos de entrega?", "Entre 3 y 7 días hábiles según tu localidad."],
+            ["💸 ¿Cuánto cuesta el envío?", "Estamos bonificando el envío durante los primeros meses."],
+            ["🧾 ¿Qué métodos de pago aceptan?", "Tarjetas, transferencias y Mercado Pago."],
+            ["🔄 ¿Cómo devuelvo un producto?", "Tenés 10 días para iniciar devolución sin costo."],
+            ["✅ ¿Cómo sé si mi pedido fue exitoso?", "Recibís un email de confirmación. Revisá spam si no lo encontrás."]
+          ].each_with_index do |(question, answer), i| %>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faq<%= i %>">
+                <button class="accordion-button <%= i > 0 ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= i %>">
+                  <%= question %>
+                </button>
+              </h2>
+              <div id="collapse<%= i %>" class="accordion-collapse collapse <%= i == 0 ? 'show' : '' %>">
+                <div class="accordion-body">
+                  <%= answer %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+  function updateMainImage(thumbnail) {
+    const newSrc = thumbnail.dataset.large;
+    const mainImage = document.getElementById("mainProductImage");
+
+    if (mainImage && newSrc) {
+      mainImage.src = newSrc;
+
+      document.querySelectorAll(".thumb-image").forEach(img => {
+        img.classList.remove("border", "border-primary");
+      });
+
+      thumbnail.classList.add("border", "border-primary");
+    }
+  }
+</script>

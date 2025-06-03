@@ -1,0 +1,166 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-capitalize mb-0">Explorar <%= @tipo %></h1>
+    <button class="btn btn-primary d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosCollapse" aria-expanded="false" aria-controls="filtrosCollapse">
+      Filtros
+    </button>
+  </div>
+
+  <div class="row">
+    <!-- Filtros -->
+    <div class="collapse d-md-block col-md-3 mb-4" id="filtrosCollapse">
+      <%= form_with url: (@tipo.present? ? explore_tipo_path(@tipo) : explore_path), method: :get, local: true do %>
+        <%= hidden_field_tag :tipo, @tipo %>
+
+        <% if @tipo == "ropa" %>
+          <div class="mb-3">
+            <%= label_tag :subtipo, "Tipo de prenda" %>
+            <%= select_tag :subtipo,
+              options_for_select([
+                "", 
+                "Sweaters y buzos",
+                "Pantalones y joggers",
+                "Leggings y bikers",
+                "Jeans",
+                "Remeras y tops",
+                "Bikinis y enteros",
+                "Abrigos"
+              ], params[:subtipo]),
+              class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :talle_ropa, "Talle de ropa" %>
+            <%= select_tag :talle_ropa, options_for_select(["", "XS", "S", "M", "L", "XL", "XXL"], params[:talle_ropa]), class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :talle_zapatilla, "Talle de zapatilla" %>
+            <%= select_tag :talle_zapatilla, options_for_select(["", "35", "36", "37", "38", "39", "40", "41", "42", "43"], params[:talle_zapatilla]), class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :genero, "Género" %>
+            <%= select_tag :genero, options_for_select(["", "Hombre", "Mujer", "Unisex"], params[:genero]), class: "form-select" %>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Color</label>
+            <div class="color-options d-flex flex-wrap">
+              <% ["Negro", "Gris", "Blanco", "Marrón", "Naranja", "Crudo", "Amarillo", "Rojo", "Rosa", "Violeta", "Celeste", "Azul", "Verde", "Verde oscuro", "Khaki", "Multicolor", "Dorado", "Plateado"].each do |color| %>
+                <label class="color-select">
+                  <input type="radio" name="color" value="<%= color %>" <%= "checked" if params[:color] == color %>>
+                  <span class="color-circle color-<%= color.downcase.gsub(" ", "-") %>"></span>
+                  <%= color %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= label_tag :material, "Material" %>
+            <%= select_tag :material, options_for_select(["", "algodón", "jean", "lana", "cuero", "sintético"], params[:material]), class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :condition, "Condición" %>
+            <%= select_tag :condition, options_for_select(["", "nuevo", "usado", "casi nuevo"], params[:condition]), class: "form-select" %>
+          </div>
+        <% end %>
+
+        <% if @tipo == "muebles" %>
+          <div class="mb-3">
+            <%= label_tag :subtipo, "Tipo de mueble/deco" %>
+                <%= select_tag :subtipo, options_for_select([
+                  "", "sillón", "mesa", "silla", "barra", "placard", "biblioteca",
+                  "cuadro", "almohadón", "lámpara", "espejo", "puff", "velador",
+                  "cómoda", "perchero", "repisa", "estantería", "baúl", "taburete"
+                ], params[:subtipo]), class: "form-select" %>
+          </div>
+
+          <div class="mb-3">
+            <%= label_tag :material, "Material" %>
+            <%= select_tag :material, options_for_select(["", "madera", "metal", "vidrio", "tapizado", "plástico"], params[:material]), class: "form-select" %>
+          </div>
+
+          <div class="mb-3">
+            <%= label_tag :condition, "Condición" %>
+            <%= select_tag :condition, options_for_select(["", "nuevo", "usado", "casi nuevo"], params[:condition]), class: "form-select" %>
+          </div>
+
+
+          <div class="mb-3">
+            <label class="form-label">Color</label>
+            <div class="color-options d-flex flex-wrap">
+              <% ["Negro", "Gris", "Blanco", "Marrón", "Naranja", "Crudo", "Amarillo", "Rojo", "Rosa", "Violeta", "Celeste", "Azul", "Verde", "Verde oscuro", "Khaki", "Multicolor", "Dorado", "Plateado"].each do |color| %>
+                <label class="color-select">
+                  <input type="radio" name="color" value="<%= color %>" <%= "checked" if params[:color] == color %>>
+                  <span class="color-circle color-<%= color.downcase.gsub(" ", "-") %>"></span>
+                  <%= color %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+
+          <div class="mb-3">
+            <%= label_tag :medidas, "Medidas (ej: 100x80x50)" %>
+            <%= text_field_tag :medidas, params[:medidas], class: "form-control", placeholder: "ancho x alto x profundidad" %>
+          </div>
+        <% end %>
+
+        <% if @tipo == "accesorios" %>
+          <div class="mb-3">
+            <%= label_tag :subtipo, "Tipo de accesorio" %>
+            <%= select_tag :subtipo, options_for_select([
+              "", "collar", "pulsera", "anillo", "aros", "reloj", "vincha", "lentes", "bufanda", "cinturón"
+            ], params[:subtipo]), class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :uso, "Condición" %>
+            <%= select_tag :uso, options_for_select(["", "nuevo", "usado", "casi nuevo"], params[:uso]), class: "form-select" %>
+          </div>
+          <div class="mb-3">
+            <%= label_tag :marca, "Marca" %>
+            <%= text_field_tag :marca, params[:marca], class: "form-control" %>
+          </div>
+        <% end %>
+
+
+        <div class="mb-3">
+          <%= label_tag :precio, "Precio máximo ($0 a $1.000.000)" %>
+          <%= range_field_tag :precio, params[:precio] || 1000000, min: 0, max: 1000000, step: 1000, class: "form-range" %>
+        </div>
+
+        <div class="mb-3">
+          <%= label_tag :distancia, "Distancia máxima (0 a 50 km)" %>
+          <%= range_field_tag :distancia, params[:distancia] || 50, min: 0, max: 50, step: 1, class: "form-range" %>
+        </div>
+
+        <% if @tipo == "ropa" %>
+          <div class="form-check mb-2">
+            <%= check_box_tag :estado, "nuevo", params[:estado] == "nuevo", class: "form-check-input" %>
+            <%= label_tag :estado, "Solo nuevos", class: "form-check-label" %>
+          </div>
+          <div class="form-check mb-3">
+            <%= check_box_tag :envio, "gratis", params[:envio] == "gratis", class: "form-check-input" %>
+            <%= label_tag :envio, "Envío gratis", class: "form-check-label" %>
+          </div>
+        <% end %>
+
+        <%= submit_tag "Filtrar", class: "btn btn-primary w-100" %>
+      <% end %>
+    </div>
+
+    <!-- Resultados -->
+    <div class="col-md-9">
+      <% if @products.any? %>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+          <% @products.each do |product| %>
+            <div class="col">
+              <%= render partial: "products/product_card", locals: { product: product } %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>No se encontraron productos.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

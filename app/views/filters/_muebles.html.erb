@@ -1,0 +1,40 @@
+<%= form_with url: explore_muebles_path, method: :get, local: true, class: "d-grid gap-3 px-3" do %>
+  <input type="hidden" name="tipo" value="muebles">
+
+  <div>
+    <%= label_tag :subtipo, "Tipo de mueble", class: "form-label" %>
+    <%= select_tag :subtipo, options_for_select(["", "sillon", "mesa", "silla", "barra"], params[:subtipo]), class: "form-select" %>
+  </div>
+
+  <div>
+    <%= label_tag :color, "Color", class: "form-label" %>
+    <%= text_field_tag :color, params[:color], class: "form-control" %>
+  </div>
+
+  <div>
+    <%= label_tag :precio, "Precio máximo ($0 a $1.000.000)", class: "form-label" %>
+    <%= range_field_tag :precio, params[:precio] || 1000000, min: 0, max: 1000000, step: 1000, class: "form-range" %>
+  </div>
+
+  <div>
+    <%= label_tag :distancia, "Distancia máxima (0 a 50 km)", class: "form-label" %>
+    <%= range_field_tag :distancia, params[:distancia] || 50, min: 0, max: 50, step: 1, class: "form-range" %>
+  </div>
+
+  <div>
+    <%= label_tag :width, "Ancho (cm)", class: "form-label" %>
+    <%= number_field_tag :width, params[:width], class: "form-control" %>
+  </div>
+
+  <div>
+    <%= label_tag :height, "Alto (cm)", class: "form-label" %>
+    <%= number_field_tag :height, params[:height], class: "form-control" %>
+  </div>
+
+  <div>
+    <%= label_tag :depth, "Profundidad (cm)", class: "form-label" %>
+    <%= number_field_tag :depth, params[:depth], class: "form-control" %>
+  </div>
+
+  <%= submit_tag "Filtrar", class: "btn btn-primary w-100" %>
+<% end %>

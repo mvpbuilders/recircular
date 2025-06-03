@@ -1,0 +1,64 @@
+<%= form_with model: @order, url: orders_path, method: :post, local: true, html: { data: { controller: "order-validation" } } do |f| %>
+  <%= f.hidden_field :product_id, value: product_id, name: "order[product_id]" %>
+
+  <div class="my-8">
+    <div data-controller="quantity" class="d-flex align-items-center justify-content-start">
+      <label for="quantity_input" class="small me-3 fw-semibold">Cantidad:</label>
+
+      <div style="display: inline-flex; align-items: center;">
+        <button type="button" class="btn btn-link p-0" data-action="click->quantity#decrement">
+          <i class="fs-4 fw-bold bi bi-dash-square"></i>
+        </button>
+
+        <input type="number"
+               class="form-control form-control-sm p-0 rounded-3 text-center fs-5 border-0 bg-athens-gray-50 bg-opacity-50 mx-4"
+               id="quantity_input" name="order[quantity]" value="1"
+               style="width: 25% !important;"
+               data-quantity-target="input" min="1" readonly>
+
+        <button type="button" class="btn btn-link p-0" data-action="click->quantity#increment">
+          <i class="fs-4 fw-bold bi bi-plus-square"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <% hoy = Date.today %>
+      <p class="mb-3 fs-5 text-dark">
+        Llega entre 5 y 7 días de realizada la compra
+        <span class="text-decoration-line-through text-secondary">$7.845</span> 
+        <span class="text-success fw-bold fs-5 ms-1">GRATIS (CABA y Gran Bs. As.)</span>
+      </p>
+  </div>
+
+  <p class="fw-semibold">Tu información de contacto</p>
+
+  <div class="mb-3">
+    <label for="order_email" class="form-label">Correo electrónico</label>
+    <%= email_field_tag "order[email]", nil, class: "form-control w-100", placeholder: "Email", required: true,
+          data: { order_validation_target: "email", action: "input->order-validation#validateEmail" } %>
+    <div data-order-validation-target="errorEmail" class="text-danger small mt-1"></div>
+  </div>
+
+
+  <div class="d-grid mt-8">
+    <%= submit_tag "Iniciar compra", class: "btn btn-primary rounded-4 fw-semibold" %>
+  </div>
+
+
+    <div class="payment-box text-center mt-4">
+      <p class="fw-semibold mb-3 text-secondary">
+        <i class="bi bi-shield-lock-fill me-1"></i> Pago seguro garantizado
+      </p>
+      <div class="payment-logo-group">
+        <%= image_tag "mercadopago1.svg", alt: "Mercado Pago", class: "payment-logo" %>
+        <%= image_tag "visa1.svg", alt: "Visa", class: "payment-logo" %>
+        <%= image_tag "mastercard1.svg", alt: "Mastercard", class: "payment-logo" %>      
+      </div>
+    </div>
+      <p class="text-muted small mt-3">
+      Derecho de devolución o reclamo hasta 30 días desde la entrega
+      </p>
+  </div>
+<% end %>

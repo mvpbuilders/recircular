@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  tipo: MyString
+  subtipo: MyString
+  condition: MyString
+  material: MyString
+  color: MyString
+  talle_ropa: MyString
+  talle_zapatilla: MyString
+  precio: 1
+  distancia: 1
+  width: 1
+  height: 1
+  depth: 1
+  status: MyString
+  tags: MyString
+
+two:
+  title: MyString
+  description: MyText
+  tipo: MyString
+  subtipo: MyString
+  condition: MyString
+  material: MyString
+  color: MyString
+  talle_ropa: MyString
+  talle_zapatilla: MyString
+  precio: 1
+  distancia: 1
+  width: 1
+  height: 1
+  depth: 1
+  status: MyString
+  tags: MyString

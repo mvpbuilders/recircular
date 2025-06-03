@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recircular</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css", media: "all" %>
+  </head>
+
+  <body>
+    <%= render "shared/navbar" %>
+    <%= yield %>
+    <!-- Bootstrap JS (necesario para que los componentes como collapse funcionen) -->
+    <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js", crossorigin: "anonymous" %>
+
+    <%= render "shared/footer" %> 
+  </body>
+</html>

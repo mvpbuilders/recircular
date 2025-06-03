@@ -1,0 +1,116 @@
+.btn-turquoise {
+  background-color: #40e0d0;
+  color: white;
+}
+
+.search-bar {
+  height: 50px;
+  border-radius: 8px;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.card {
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.payment-logo-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.payment-logo {
+  height: 32px;
+  max-width: 80px;
+  object-fit: contain;
+}
+
+
+.product-scroll-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+}
+
+.product-scroll-container::-webkit-scrollbar {
+  display: none; // ocultar scroll en mobile
+}
+
+.product-card-wrapper {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 85%; // mobile
+
+  @media (min-width: 576px) {
+    width: 45%;
+  }
+
+  @media (min-width: 768px) {
+    width: 30%;
+  }
+
+  @media (min-width: 992px) {
+    width: 23%;
+  }
+}
+
+
+.color-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px 16px;
+}
+
+.color-select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.color-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+.color-select input[type="radio"] {
+  margin: 0;
+}
+
+.color-negro { background-color: #000; }
+.color-gris { background-color: #ccc; }
+.color-blanco { background-color: #fff; }
+.color-marrón { background-color: #5c4033; }
+.color-naranja { background-color: #f90; }
+.color-crudo { background-color: #f5f5dc; }
+.color-amarillo { background-color: #ff0; }
+.color-rojo { background-color: #f00; }
+.color-rosa { background-color: #ff69b4; }
+.color-violeta { background-color: #8a2be2; }
+.color-celeste { background-color: #87ceeb; }
+.color-azul { background-color: #00f; }
+.color-verde { background-color: #008000; }
+.color-verde-oscuro { background-color: #013220; }
+.color-khaki { background-color: #f0e68c; }
+.color-multicolor { background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet); }
+.color-dorado { background-color: #ffd700; }
+.color-plateado { background-color: #c0c0c0; }

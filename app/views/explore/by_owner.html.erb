@@ -1,0 +1,13 @@
+<h1>Productos de <%= @owner %></h1>
+
+<% if @products.any? %>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <% @products.each do |product| %>
+      <div class="col">
+        <%= render partial: "products/product_card", locals: { product: product } %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No se encontraron productos para <%= @owner %>.</p>
+<% end %>

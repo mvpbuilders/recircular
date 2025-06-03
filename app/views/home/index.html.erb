@@ -1,0 +1,85 @@
+<div class="container py-5">
+  <!-- Hero -->
+  <div class="text-center my-5">
+    <h1 class="fw-bold display-5">Compra y vende cosas de segunda mano</h1>
+    <p class="fs-4 text-muted">casi, casi, sin moverte del sofá</p>
+
+    <div class="d-flex flex-column align-items-center gap-3" style="max-width: 600px; margin: 0 auto;">
+      <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-column flex-md-row align-items-center gap-2 w-100" do %>
+        <div class="position-relative flex-grow-1 w-100">
+          <%= text_field_tag :query, params[:query], class: "form-control ps-5 search-bar", placeholder: "Buscá productos..." %>
+          <span class="position-absolute top-50 start-0 translate-middle-y ps-3">🔍</span>
+        </div>
+        <%= submit_tag "Buscar", class: "btn btn-turquoise fw-semibold mt-2 mt-md-0" %>
+      <% end %>
+
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <%= link_to explore_tipo_path(tipo: "ropa"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag "remera.png", alt: "Ropa", width: 20, class: "me-2" %> Ropa
+        <% end %>
+        <%= link_to explore_tipo_path(tipo: "muebles"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag "sillon.png", alt: "Muebles", width: 20, class: "me-2" %> Muebles/Deco
+        <% end %>
+        <%= link_to explore_tipo_path(tipo: "niños"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag "baby.png", alt: "Niños", width: 20, class: "me-2" %> Niños
+        <% end %>
+        <%= link_to explore_tipo_path(tipo: "accesorios"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag "accesorios.png", alt: "Accesorios", width: 20, class: "me-2" %> Accesorios
+        <% end %>
+        <%= link_to owner_products_path(owner: "Caro"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag("fashion.png", alt: "By Caro", width: 20, class: "me-2") %>
+          By Caro
+        <% end %>
+        <%= link_to explore_tipo_path(tipo: "otros"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
+          <%= image_tag "otros.png", alt: "Otros", width: 20, class: "me-2" %> Otros
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# Secciones por categoría %>
+  <% {
+    "Mejores prendas" => @best_clothing,
+    "Mejores muebles" => @best_furniture,
+    "Mejores productos Niños" => @best_kids,
+    "Mejores uniformes" => @best_uniforms,
+    "Mejores otros" => @best_others
+  }.each do |title, collection| %>
+    <h2 class="section-title mb-4"><%= title %></h2>
+    <div class="product-scroll-container mb-5">
+      <% collection.each do |product| %>
+        <div class="product-card-wrapper">
+          <%= render "products/product_card", product: product %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- FAQs -->
+  <div class="row">
+    <div class="col-12">
+      <h2 class="section-title text-center mb-5">Preguntas frecuentes</h2>
+      <div class="accordion" id="faqAccordion">
+        <% [
+          ["❓ ¿Qué es Recircular?", "Es una plataforma para comprar y vender cosas usadas de manera simple y confiable."],
+          ["📦 ¿Cuáles son los tiempos de entrega?", "Entre 3 y 7 días hábiles según tu localidad."],
+          ["💸 ¿Cuánto cuesta el envío?", "Estamos bonificando el envío durante los primeros meses."],
+          ["🧾 ¿Qué métodos de pago aceptan?", "Tarjetas, transferencias y Mercado Pago."],
+          ["🔄 ¿Cómo devuelvo un producto?", "Tenés 10 días para iniciar devolución sin costo."],
+          ["✅ ¿Cómo sé si mi pedido fue exitoso?", "Recibís un email de confirmación. Revisá spam si no lo encontrás."]
+        ].each_with_index do |(question, answer), i| %>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faq<%= i %>">
+              <button class="accordion-button <%= i > 0 ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= i %>">
+                <%= question %>
+              </button>
+            </h2>
+            <div id="collapse<%= i %>" class="accordion-collapse collapse <%= i == 0 ? 'show' : '' %>">
+              <div class="accordion-body"><%= answer %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

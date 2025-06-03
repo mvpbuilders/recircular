@@ -1,0 +1,8 @@
+<h2>Resumen de compra</h2>
+
+<p><strong>Producto:</strong> <%= @product.title %></p>
+<p><strong>Cantidad:</strong> <%= @order.quantity %></p>
+<p><strong>Total:</strong> $<%= number_with_delimiter(@order.total_amount) %></p>
+<p><strong>Email:</strong> <%= @order.email %></p>
+
+<%= link_to "Volver al producto", product_path(@product), class: "btn btn-secondary mt-3" %>
