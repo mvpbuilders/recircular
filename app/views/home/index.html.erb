@@ -1,41 +1,46 @@
-<div class="container py-5">
+<div class="container py-3 ">
   <!-- Hero -->
-  <div class="text-center my-5">
-    <h1 class="fw-bold display-5">Compra y vende cosas de segunda mano</h1>
-    <p class="fs-4 text-muted">casi, casi, sin moverte del sofá</p>
+  <!-- Botones de categorías chicos centrados -->
+  <div class="d-none d-md-block bg-white py-3 border-bottom mt-1">
+    <div class="container d-flex flex-wrap justify-content-center gap-2">
+      <% botones = [
+        ["ropa", "Ropa", "remera.png"],
+        ["muebles", "Muebles/Deco", "sillon.png"],
+        ["niños", "Niños", "baby.png"],
+        ["accesorios", "Accesorios", "accesorios.png"],
+        ["otros", "Otros", "otros.png"]
+      ] %>
 
-    <div class="d-flex flex-column align-items-center gap-3" style="max-width: 600px; margin: 0 auto;">
-      <%= form_with url: search_path, method: :get, local: true, class: "d-flex flex-column flex-md-row align-items-center gap-2 w-100" do %>
-        <div class="position-relative flex-grow-1 w-100">
-          <%= text_field_tag :query, params[:query], class: "form-control ps-5 search-bar", placeholder: "Buscá productos..." %>
-          <span class="position-absolute top-50 start-0 translate-middle-y ps-3">🔍</span>
-        </div>
-        <%= submit_tag "Buscar", class: "btn btn-turquoise fw-semibold mt-2 mt-md-0" %>
+      <% botones.each do |tipo, label, icon| %>
+        <%= link_to explore_tipo_path(tipo: tipo), class: "btn btn-outline-dark btn-sm d-flex align-items-center px-3 py-1" do %>
+          <%= image_tag icon, alt: label, width: 16, class: "me-2" %> <%= label %>
+        <% end %>
       <% end %>
 
-      <div class="d-flex flex-wrap justify-content-center gap-2">
-        <%= link_to explore_tipo_path(tipo: "ropa"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag "remera.png", alt: "Ropa", width: 20, class: "me-2" %> Ropa
-        <% end %>
-        <%= link_to explore_tipo_path(tipo: "muebles"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag "sillon.png", alt: "Muebles", width: 20, class: "me-2" %> Muebles/Deco
-        <% end %>
-        <%= link_to explore_tipo_path(tipo: "niños"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag "baby.png", alt: "Niños", width: 20, class: "me-2" %> Niños
-        <% end %>
-        <%= link_to explore_tipo_path(tipo: "accesorios"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag "accesorios.png", alt: "Accesorios", width: 20, class: "me-2" %> Accesorios
-        <% end %>
-        <%= link_to owner_products_path(owner: "Caro"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag("fashion.png", alt: "By Caro", width: 20, class: "me-2") %>
-          By Caro
-        <% end %>
-        <%= link_to explore_tipo_path(tipo: "otros"), class: "btn btn-outline-secondary d-flex align-items-center" do %>
-          <%= image_tag "otros.png", alt: "Otros", width: 20, class: "me-2" %> Otros
-        <% end %>
-      </div>
+      <%= link_to owner_products_path(owner: "Caro"), class: "btn btn-outline-dark btn-sm d-flex align-items-center px-3 py-1" do %>
+        <%= image_tag "fashion.png", alt: "By Caro", width: 16, class: "me-2" %> By Caro
+      <% end %>
     </div>
   </div>
+
+  <!-- Banner -->
+<section class="position-relative overflow-hidden" style="background-image: url(<%= asset_path("banner1.png") %>); background-size: cover; background-position: center top; height: 500px;">
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.25);"></div>
+
+  <div class="container h-100 position-relative d-flex flex-column-reverse flex-md-row align-items-center justify-content-center justify-content-md-start z-1">
+    <div class="bg-dark bg-opacity-50 rounded-4 p-4 text-white text-center text-md-start mb-4 mb-md-0" style="max-width: 90%;">
+      <h1 class="fw-bold m-0" style="font-size: 2rem; line-height: 1.3;">Comprá usado, comprá increíble</h1>
+      <p class="mb-0 mt-2" style="font-size: 1rem;">Productos únicos, al mejor precio</p>
+      <%= link_to "#mejores-prendas", class: "btn btn-light fw-semibold mt-3 px-4 py-2" do %>
+        Shop Now
+      <% end %>
+    </div>
+  </div>
+</section>
+
+
+
+
 
   <%# Secciones por categoría %>
   <% {
@@ -45,7 +50,10 @@
     "Mejores uniformes" => @best_uniforms,
     "Mejores otros" => @best_others
   }.each do |title, collection| %>
-    <h2 class="section-title mb-4"><%= title %></h2>
+    <div class="text-center mt-5 mb-4">
+      <h4 class="fw-bold text-uppercase mb-2"><%= title %></h4>
+      <div style="width: 40px; height: 3px; background-color: #ccc; margin: 0 auto;"></div>
+    </div>
     <div class="product-scroll-container mb-5">
       <% collection.each do |product| %>
         <div class="product-card-wrapper">
@@ -54,6 +62,7 @@
       <% end %>
     </div>
   <% end %>
+
 
   <!-- FAQs -->
   <div class="row">

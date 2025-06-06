@@ -1,8 +1,80 @@
-<nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
-  <div class="container">
-    <%= link_to "Recircular", root_path, class: "navbar-brand fw-bold" %>
-    <div class="ms-auto">
-      <%= link_to "Vender", vender_path, class: "btn btn-outline-primary fw-semibold" %>
+<!-- Navbar móvil simplificada -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom py-2 d-md-none">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+    <!-- Menú hamburguesa -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Logo centrado -->
+    <%= link_to root_path, class: "navbar-brand mx-auto" do %>
+      <%= image_tag "logocircu.png", alt: "Recircular", height: 34 %>
+    <% end %>
+
+  </div>
+
+  <!-- Menú colapsable -->
+
+  <div class="collapse d-md-none bg-white border-bottom px-3 py-4" id="mobileMenu">
+
+    <!-- Buscador -->
+    <%= form_with url: search_path, method: :get, local: true, class: "mb-3" do %>
+      <div class="position-relative">
+        <%= text_field_tag :query, params[:query], class: "form-control ps-5", placeholder: "Buscar" %>
+        <span class="position-absolute top-50 start-0 translate-middle-y ps-2 text-muted">🔍</span>
+      </div>
+    <% end %>
+
+    <!-- Enlaces -->
+    <div class="list-group border-0">
+
+      <% botones = [
+        ["ropa", "Ropa", "🧥"],
+        ["muebles", "Muebles/Deco", "🛋️"],
+        ["niños", "Niños", "🧒"],
+        ["accesorios", "Accesorios", "👜"],
+        ["otros", "Otros", "🧩"]
+      ] %>
+
+      <% botones.each do |tipo, label, icon| %>
+        <%= link_to explore_tipo_path(tipo: tipo), class: "list-group-item list-group-item-action border-0 px-0 py-2 d-flex align-items-center" do %>
+          <span class="me-2"><%= icon %></span> <%= label %>
+        <% end %>
+      <% end %>
+
+      <%= link_to owner_products_path(owner: "Caro"), class: "list-group-item list-group-item-action border-0 px-0 py-2 d-flex align-items-center" do %>
+        <span class="me-2">👗</span> By Caro
+      <% end %>
     </div>
+
+    <!-- Botón "Quiero vender" -->
+    <%= link_to vender_path, class: "btn btn-dark w-100 mt-4 py-2 fw-semibold" do %>
+      Quiero vender
+    <% end %>
+
+  </div>
+
+</nav>
+
+<!-- Navbar desktop -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom py-2 d-none d-md-flex">
+  <div class="container justify-content-between align-items-center">
+
+    <!-- Buscador -->
+    <%= form_with url: search_path, method: :get, local: true, class: "position-relative", style: "max-width: 240px;" do %>
+      <%= text_field_tag :query, params[:query], class: "form-control form-control-sm ps-5", placeholder: "Buscar" %>
+      <span class="position-absolute top-50 start-0 translate-middle-y ps-2 text-muted">🔍</span>
+    <% end %>
+
+    <!-- Logo -->
+    <%= link_to root_path, class: "navbar-brand mx-auto" do %>
+      <%= image_tag "logocircu.png", alt: "Recircular", height: 34 %>
+    <% end %>
+
+    <!-- Botón vender -->
+    <%= link_to "Quiero vender", vender_path, class: "btn btn-outline-dark btn-sm px-3" %>
+
   </div>
 </nav>
+
