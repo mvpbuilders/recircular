@@ -2,41 +2,42 @@
   <!-- Hero -->
   <!-- Botones de categorías chicos centrados -->
   <div class="d-none d-md-block bg-white py-3 border-bottom mt-1">
-    <div class="container d-flex flex-wrap justify-content-center gap-2">
+    <div class="container d-flex flex-wrap justify-content-center gap-4">
       <% botones = [
-        ["ropa", "Ropa", "remera.png"],
-        ["muebles", "Muebles/Deco", "sillon.png"],
-        ["niños", "Niños", "baby.png"],
-        ["accesorios", "Accesorios", "accesorios.png"],
-        ["otros", "Otros", "otros.png"]
+        ["ropa", "Ropa"],
+        ["muebles", "Muebles & Deco"],
+        ["niños", "Niños"],
+        ["accesorios", "Accesorios"],
+        ["otros", "Otros"]
       ] %>
 
-      <% botones.each do |tipo, label, icon| %>
-        <%= link_to explore_tipo_path(tipo: tipo), class: "btn btn-outline-dark btn-sm d-flex align-items-center px-3 py-1" do %>
-          <%= image_tag icon, alt: label, width: 16, class: "me-2" %> <%= label %>
-        <% end %>
+      <% botones.each do |tipo, label| %>
+        <%= link_to label, explore_tipo_path(tipo: tipo), class: "category-link" %>
       <% end %>
 
-      <%= link_to owner_products_path(owner: "Caro"), class: "btn btn-outline-dark btn-sm d-flex align-items-center px-3 py-1" do %>
-        <%= image_tag "fashion.png", alt: "By Caro", width: 16, class: "me-2" %> By Caro
-      <% end %>
+      <%= link_to "By Caro", owner_products_path(owner: "Caro"), class: "category-link" %>
     </div>
   </div>
+
 
   <!-- Banner -->
-<section class="position-relative overflow-hidden" style="background-image: url(<%= asset_path("banner1.png") %>); background-size: cover; background-position: center top; height: 500px;">
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.25);"></div>
+  <section class="position-relative overflow-hidden d-flex align-items-center justify-content-center justify-content-md-start text-white"
+          style="background-image: url(<%= asset_path("banner1.png") %>);
+                  background-size: cover;
+                  background-position: top;
+                  height: 500px;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.4); z-index: 1;"></div>
 
-  <div class="container h-100 position-relative d-flex flex-column-reverse flex-md-row align-items-center justify-content-center justify-content-md-start z-1">
-    <div class="bg-dark bg-opacity-50 rounded-4 p-4 text-white text-center text-md-start mb-4 mb-md-0" style="max-width: 90%;">
-      <h1 class="fw-bold m-0" style="font-size: 2rem; line-height: 1.3;">Comprá usado, comprá increíble</h1>
-      <p class="mb-0 mt-2" style="font-size: 1rem;">Productos únicos, al mejor precio</p>
-      <%= link_to "#mejores-prendas", class: "btn btn-light fw-semibold mt-3 px-4 py-2" do %>
-        Shop Now
+    <div class="position-relative z-2 text-start ms-md-5">
+      <h1 class="fw-light mb-4" style="font-size: 2.5rem; letter-spacing: 1px;">
+        comprá usado<br>comprá increible.-
+      </h1>
+      <%= link_to "#mejores-prendas", class: "btn btn-outline-light px-5 py-2 rounded-0 fw-normal", style: "letter-spacing: 4px;" do %>
+        SHOP NOW
       <% end %>
     </div>
-  </div>
-</section>
+  </section>
+
 
 
 
