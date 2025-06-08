@@ -31,13 +31,15 @@ class ExploreController < ApplicationController
   def owner_products
     @owner = params[:owner]
 
+    @clothing_products = ClothingProduct.where(owner: @owner)
     @kids_products = KidsProduct.where(owner: @owner)
     @uniform_products = UniformProduct.where(owner: @owner)
     @furniture_products = FurnitureProduct.where(owner: @owner)
     @accessory_products = AccessoryProduct.where(owner: @owner)
     @other_products = OtherProduct.where(owner: @owner)
 
-    @all_products = @kids_products + @uniform_products + @furniture_products + @accessory_products + @other_products
+    @all_products = @clothing_products + @kids_products + @uniform_products +
+                    @furniture_products + @accessory_products + @other_products
 
     # Aplicar filtros
     @filtered_products = @all_products
@@ -49,6 +51,7 @@ class ExploreController < ApplicationController
     @filtered_products = @filtered_products.select { |p| p.precio.to_i <= params[:precio].to_i } if params[:precio].present?
     @filtered_products = @filtered_products.select { |p| p.distancia.to_f <= params[:distancia].to_f } if params[:distancia].present?
   end
+
 
 
 
