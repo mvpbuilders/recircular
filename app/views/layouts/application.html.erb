@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Recircular</title>
+    <%= yield :meta_tags %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <% content_for :meta_tags do %>
+      <title>Circu - comprá usado, comprá increíble</title>
+      <meta name="description" content="Circu es el mejor lugar para comprar ropa y muebles usados en excelente estado. Comprá increíble, comprá usado.">
+      <meta property="og:title" content="Circu - comprá usado, comprá increíble" />
+      <meta property="og:description" content="Ropa, muebles y más en excelente estado. Comprá usado. Comprá increíble." />
+      <meta property="og:image" content="<%= image_url('favicon.png') %>" />
+      <meta property="og:url" content="<%= request.original_url %>" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="og:type" content="website" />
+    <% end %>
+
+    <link rel="icon" href="<%= image_path('favicon_transparente.png') %>" type="image/png">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>

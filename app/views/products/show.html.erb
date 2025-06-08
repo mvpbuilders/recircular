@@ -1,16 +1,14 @@
 <div class="container-fluid mt-5">
   <div class="row">
-    <!-- Columna de imagen -->
+    <!-- Imagen -->
     <div class="col-12 col-lg-6 text-center">
       <% if @product.images.attached? %>
-        <!-- Imagen principal -->
         <div class="mb-3">
           <%= image_tag @product.images.first.variant(resize_to_limit: [500, 500]),
               class: "img-fluid rounded main-image",
               id: "mainProductImage" %>
         </div>
 
-        <!-- Miniaturas debajo -->
         <div class="d-flex gap-2 justify-content-center flex-wrap">
           <% @product.images.each_with_index do |image, index| %>
             <%= image_tag image.variant(resize_to_limit: [80, 80]),
@@ -25,23 +23,25 @@
       <% end %>
     </div>
 
-    <!-- Info del producto -->
+    <!-- Info -->
     <div class="col-12 col-lg-6 mt-4 mt-lg-0">
-      <p class="fs-4 fw-bold text-success mb-1">
+
+      <h4 class="fw-semibold mb-2"><%= @product.title %></h4>
+
+      <p class="fs-5 fw-bold mb-1">
         $<%= number_with_delimiter(@product.precio, delimiter: ".") %>
       </p>
-      <h4 class="fw-semibold mb-2"><%= @product.title %></h4>
-      <p class="text-muted mb-1 text-capitalize"><%= @product.description %></p>
+      <p class="text-muted mb-2"><%= @product.description %></p>
+
+      <% if @product.condition.present? %>
+        <p class="mb-3"><strong>Condición:</strong> <%= @product.condition %></p>
+      <% end %>
+
+      <hr class="my-4">
 
       <!-- Formulario de compra -->
       <%= form_with model: @order, url: orders_path, method: :post, local: true, html: { data: { controller: "order-validation" } } do |f| %>
         <%= f.hidden_field :product_id, value: @product.id, name: "order[product_id]" %>
-
-        <p class="mb-3 fs-5 text-dark">
-          Llega entre 5 y 7 días de realizada la compra por 
-          <span class="text-decoration-line-through text-secondary">$7.845</span> 
-          <span class="text-success fw-bold fs-5 ms-1">GRATIS (CABA y Gran Bs. As.)</span>
-        </p>
 
         <p class="fw-semibold">Tu información de contacto</p>
         <div class="mb-3">
@@ -51,8 +51,12 @@
           <div data-order-validation-target="errorEmail" class="text-danger small mt-1"></div>
         </div>
 
+        <!-- Botón estilo Quiero Vender -->
         <div class="d-grid mt-4">
-          <%= submit_tag "Iniciar compra", class: "btn btn-primary rounded-4 fw-semibold" %>
+          <%= submit_tag "Iniciar compra", class: "btn btn-dark rounded-4 fw-semibold py-2 text-white" %>
+        </div>
+        <div class="d-grid mt-4">
+          <%= submit_tag "Agregar al carrito", class: "btn btn-outline-dark rounded-4 fw-semibold py-2" %>
         </div>
 
         <div class="payment-box text-center mt-4">
@@ -65,12 +69,14 @@
             <%= image_tag "mastercard1.svg", alt: "Mastercard", class: "payment-logo" %>
           </div>
         </div>
+
         <p class="text-muted small mt-3 text-center">
           Derecho de devolución o reclamo hasta 30 días desde la entrega
         </p>
       <% end %>
     </div>
   </div>
+</div>
 
   <!-- Separador -->
   <hr class="my-5">

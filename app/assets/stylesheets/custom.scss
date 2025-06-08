@@ -211,3 +211,16 @@
 #mobileMenu .list-group-item:hover {
   text-decoration: underline !important;
 }
+
+
+input[type="range"].form-range::-webkit-slider-thumb {
+  background-color: #000000;
+}
+
+input[type="range"].form-range::-moz-range-thumb {
+  background-color: #000000;
+}
+
+input[type="range"].form-range::-ms-thumb {
+  background-color: #000000;
+}

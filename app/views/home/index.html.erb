@@ -22,7 +22,7 @@
 
   <!-- Banner -->
   <section class="position-relative overflow-hidden d-flex align-items-center justify-content-center justify-content-md-start text-white"
-          style="background-image: url(<%= asset_path("banner1.png") %>);
+          style="background-image: url(<%= asset_path("banner2.png") %>);
                   background-size: cover;
                   background-position: top;
                   height: 500px;">
@@ -32,7 +32,7 @@
       <h1 class="fw-light mb-4" style="font-size: 2.5rem; letter-spacing: 1px;">
         comprá usado<br>comprá increible.-
       </h1>
-      <%= link_to "#mejores-prendas", class: "btn btn-outline-light px-5 py-2 rounded-0 fw-normal", style: "letter-spacing: 4px;" do %>
+      <%= link_to explore_tipo_path(tipo: "ropa"), class: "btn btn-outline-light px-5 py-2 rounded-5" do %>
         SHOP NOW
       <% end %>
     </div>
@@ -48,7 +48,6 @@
     "Mejores prendas" => @best_clothing,
     "Mejores muebles" => @best_furniture,
     "Mejores productos Niños" => @best_kids,
-    "Mejores uniformes" => @best_uniforms,
     "Mejores otros" => @best_others
   }.each do |title, collection| %>
     <div class="text-center mt-5 mb-4">

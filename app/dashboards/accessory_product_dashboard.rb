@@ -7,7 +7,7 @@ class AccessoryProductDashboard < Administrate::BaseDashboard
     description: Field::Text,
     tipo: Field::String,
     subtipo: Field::Select.with_options(collection: ["",
-      "collar", "pulsera", "anillo", "aros", "reloj", "vincha", "lentes", "bufanda", "cinturón"
+      "collar", "pulsera", "anillo", "aros", "reloj", "vincha", "lentes","cartera", "bufanda", "cinturón"
     ]),
     uso: Field::Select.with_options(collection: ["","nuevo", "usado", "casi nuevo"]),
     color: Field::String,
