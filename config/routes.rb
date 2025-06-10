@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'products/show'
   get 'explore/index'
   get 'search/index'
   root "home#index"
@@ -9,11 +8,11 @@ Rails.application.routes.draw do
   get "explore/by_owner", to: "explore#by_owner", as: :explore_by_owner
   get "vender", to: "pages#vender", as: :vender
   get 'owner/:owner', to: 'explore#owner_products', as: :owner_products
+  get 'reset_cart', to: 'orders#reset_cart'
 
-
+  post "/add_to_cart/:id", to: "session_cart#add_to_cart", as: :add_to_cart
 
   resources :products, only: [:show]
-
 
   namespace :admin do
     resources :products
@@ -27,9 +26,20 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [:create] do
-    member do
+    collection do
       get :checkout
     end
+
+    member do
+      get :resume
+      get :payment
+      post :create_preference
+      post :process_payment
+    end
   end
+
+
+  post "payments/mp_hook", to: "payments#mp_hook"
+
 
 end

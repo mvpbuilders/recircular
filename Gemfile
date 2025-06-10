@@ -72,4 +72,8 @@ gem "bootstrap", "~> 5.3.0"
 gem "administrate-field-active_storage"
 gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
-
+gem "mercadopago-sdk", "~> 2.1.0"
+gem 'money-rails'
+group :development do
+  gem "dotenv-rails"
+end

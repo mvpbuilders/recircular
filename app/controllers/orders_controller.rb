@@ -1,31 +1,92 @@
 class OrdersController < ApplicationController
-  def create
-    @order = Order.new(order_params)
-    @order.total_amount = @order.product.precio * @order.quantity
-    @order.currency = "ARS" # o @order.product.currency si lo tenés
-    @order.status = "pending"
+  def checkout
+    @cart_products = session[:cart]&.map do |id, _|
+      Product.find_by(id: id)
+    end.compact
 
-    if @order.save
-      redirect_to checkout_order_path(@order)
+    @total = @cart_products.sum { |p| p.precio.to_i }
+  end
+
+  def create
+    cart = session[:cart] || {}
+    products = Product.where(id: cart.keys)
+
+    # Costos desde el formulario
+    envio = params[:envio].to_i
+    email = params[:email]
+    direccion = params[:direccion]
+
+    total = products.sum { |p| p.precio.to_i } + envio
+
+    order = Order.create!(
+      total_amount: total,
+      status: "pending",
+      email: email,
+      direccion: direccion,
+      envio: envio
+    )
+
+    products.each do |product|
+      OrderItem.create!(
+        order: order,
+        product: product,
+        price: product.precio
+      )
+      product.update!(available: false)
+    end
+
+    session[:cart] = {}
+    redirect_to payment_order_path(order)
+  end
+
+  def resume
+    @order = Order.includes(order_items: :product).find(params[:id])
+  end
+
+  def reset_cart
+    session[:cart] = {}
+    redirect_to root_path, notice: "Carrito vaciado correctamente"
+  end
+
+  def create_preference
+    order = Order.find(params[:id])
+    payment = order.payment || order.create_payment!(
+      price_cents: order.total_amount.to_i * 100,
+      status: :pending,
+      payment_method: :mercadopago
+    )
+    client = MercadoPagoClient.new(access_token: ENV["MERCADO_PAGO_ACCESS_TOKEN"])
+
+    response = client.create_preference(order, nil, params, payment.id)
+
+    render json: { preference_id: response[:preference_id] }
+  end
+
+  def process_payment
+    order = Order.find(params[:id])
+    client = MercadoPagoClient.new(access_token: ENV["MERCADO_PAGO_ACCESS_TOKEN"])
+
+    payment = order.payment || order.create_payment!(
+      price_cents: order.total_amount.to_i * 100,
+      status: :pending,
+      payment_method: :mercadopago
+    )
+
+    global_id = payment.id
+
+    response = client.create_payment(order, nil, params, global_id)
+
+    if response[:success]
+      payment.update!(status: :paid, payment_info: response[:body])
+      render json: { success: true, redirect_url: resume_order_path(order) }
     else
-      @product = @order.product
-      flash[:error] = @order.errors.full_messages.join(", ")
-      render "products/show", status: :unprocessable_entity
+      payment.update!(status: :failed, payment_info: response[:body])
+      render json: { success: false, message: "Error al procesar el pago" }
     end
   end
 
-  def checkout
+  def payment
     @order = Order.find(params[:id])
-    @product = @order.product
-  end
-
-  private
-
-  def order_params
-    params.require(:order).permit(
-      :email,
-      :quantity,
-      :product_id
-    )
+    @public_key = ENV["MERCADO_PAGO_PUBLIC_KEY"]
   end
 end
