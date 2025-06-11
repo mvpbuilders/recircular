@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :uniform_products
     resources :other_products
     resources :accessory_products
+    resources :orders
     root to: "products#index"
   end
 
