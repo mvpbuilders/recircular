@@ -15,6 +15,8 @@ class OrdersController < ApplicationController
     envio = params[:envio].to_i
     email = params[:email]
     direccion = params[:direccion]
+    telefono = params[:telefono]
+
 
     total = products.sum { |p| p.precio.to_i } + envio
 
@@ -23,7 +25,8 @@ class OrdersController < ApplicationController
       status: "pending",
       email: email,
       direccion: direccion,
-      envio: envio
+      envio: envio,
+      telefono: telefono
     )
 
     products.each do |product|

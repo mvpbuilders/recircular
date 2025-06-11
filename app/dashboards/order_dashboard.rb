@@ -2,8 +2,8 @@ class OrderDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     order_items: Field::HasMany,
-    products: Field::HasMany,
     email: Field::String,
+    telefono: Field::String,
     total_amount: Field::Number.with_options(prefix: "$", decimals: 2),
     status: Field::String,
     direccion: Field::String,
@@ -16,14 +16,16 @@ class OrderDashboard < Administrate::BaseDashboard
     id
     email
     direccion
+    telefono
     total_amount
     order_items
     status
   ].freeze
 
+
   SHOW_PAGE_ATTRIBUTES = ATTRIBUTE_TYPES.keys
 
-  FORM_ATTRIBUTES = [] # si no querés editar pedidos desde el admin
+  FORM_ATTRIBUTES = [] # no se edita desde admin
 
   COLLECTION_FILTERS = {}.freeze
 end

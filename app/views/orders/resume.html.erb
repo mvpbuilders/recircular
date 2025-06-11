@@ -9,13 +9,13 @@
 
         <hr class="my-4">
 
-        <h5 class="text-start">Productos incluidos:</h5>
+        <h5 class="text-center">Productos incluidos:</h5>
 
         <% @order.order_items.includes(:product).each do |item| %>
           <% product = item.product %>
           <% next unless product.present? %>
 
-          <div class="mb-3 d-flex align-items-center text-start">
+          <div class="mb-3 text-center">
             <% if product.images.attached? %>
               <%= image_tag url_for(product.images.first), alt: product.title, class: "rounded me-3", style: "width: 60px; height: 60px; object-fit: cover;" %>
             <% end %>
@@ -25,6 +25,22 @@
             </div>
           </div>
         <% end %>
+        <hr class="my-4">
+
+        <h5 class="text-center">Datos del envío:</h5>
+        <p><strong>Email:</strong> <%= @order.email %></p>
+        <p><strong>Dirección:</strong> <%= @order.direccion %></p>
+        <p><strong>Teléfono:</strong> <%= @order.telefono %></p>
+        <p><strong>Zona de envío:</strong>
+          <%=
+            case @order.envio
+            when 5000 then "CABA (+$5.000)"
+            when 7000 then "AMBA (+$7.000)"
+            when 10000 then "Otras Zonas"
+            else "No especificada"
+            end
+          %>
+        </p>
 
         <%= link_to "Volver a la tienda", root_path, class: "btn btn-outline-dark mt-4" %>
       </div>

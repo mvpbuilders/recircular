@@ -66,4 +66,12 @@ class OrderItemDashboard < Administrate::BaseDashboard
   # def display_resource(order_item)
   #   "OrderItem ##{order_item.id}"
   # end
+  def display_resource(order_item)
+    product = order_item.product
+    return "Producto eliminado" unless product
+
+    "#{product.title} - $#{order_item.price}"
+  end
+
+
 end
