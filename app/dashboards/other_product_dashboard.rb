@@ -50,4 +50,8 @@ class OtherProductDashboard < Administrate::BaseDashboard
   def permitted_attributes(action = nil)
     super + [images: []]
   end
+  def display_resource(product)
+    product.title
+  end
+
 end

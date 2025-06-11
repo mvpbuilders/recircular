@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_05_114555) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_11_113429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -110,15 +110,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_114555) do
     t.string "owner"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.string "email"
     t.integer "quantity"
     t.decimal "total_amount"
     t.string "status"
-    t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_orders_on_product_id"
+    t.string "direccion"
+    t.integer "envio"
+    t.string "telefono"
   end
 
   create_table "other_products", force: :cascade do |t|
@@ -136,6 +147,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_114555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "owner"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.integer "price_cents"
+    t.string "payment_link"
+    t.integer "payment_method"
+    t.integer "status"
+    t.jsonb "payment_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_payments_on_order_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -162,6 +185,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_114555) do
     t.string "owner"
     t.string "uso"
     t.string "genero"
+    t.boolean "available", default: true
   end
 
   create_table "uniform_products", force: :cascade do |t|
@@ -186,5 +210,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_114555) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "orders", "products"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "payments", "orders"
 end

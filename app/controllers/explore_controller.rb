@@ -4,20 +4,21 @@ class ExploreController < ApplicationController
 
       base_scope = case @tipo
       when "ropa"
-        ClothingProduct.all
+        ClothingProduct.where(available: true)
       when "muebles"
-        FurnitureProduct.all
+        FurnitureProduct.where(available: true)
       when "niños"
-        KidsProduct.all
+        KidsProduct.where(available: true)
       when "uniformes"
-        UniformProduct.all
+        UniformProduct.where(available: true)
       when "accesorios"
-        AccessoryProduct.all
+        AccessoryProduct.where(available: true)
       when "otros"
-        OtherProduct.all
+        OtherProduct.where(available: true)
       else
         Product.none
       end
+
 
       @products = ::Filters::ProductFilterService.new(base_scope, params).call
     end

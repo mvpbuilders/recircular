@@ -1,3 +1,4 @@
+<% cart_count = session[:cart].to_h.values.sum rescue 0 %>
 <!-- Barra superior rotativa -->
 <div class="bg-black text-white py-1 px-3 overflow-hidden">
   <div class="marquee-text text-nowrap fw-light small" style="animation: scroll-left 45s linear infinite;">
@@ -38,9 +39,19 @@
     <% end %>
 
     <!-- Carrito -->
-    <%= link_to "#", class: "d-inline-block" do %>
-      <%= image_tag "carrito.png", alt: "Carrito", height: 24 %>
-    <% end %>
+    <button class="btn p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" aria-controls="cartSidebar">
+      <div class="position-relative">
+        <%= image_tag "carrito.png", alt: "Carrito", height: 24 %>
+        <% if cart_count > 0 %>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <%= cart_count %>
+          </span>
+        <% end %>
+      </div>
+
+
+    </button>
+
 
   </div>
 
@@ -89,9 +100,17 @@
 
     <!-- Carrito + Quiero vender -->
     <div class="d-flex align-items-center gap-3">
-      <%= link_to "#", class: "d-flex align-items-center" do %>
-        <%= image_tag "carrito.png", alt: "Carrito", width: 22 %>
-      <% end %>
+      <button class="btn p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" aria-controls="cartSidebar">
+        <div class="position-relative">
+          <%= image_tag "carrito.png", alt: "Carrito", height: 22 %>
+          <% if cart_count > 0 %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <%= cart_count %>
+            </span>
+          <% end %>
+        </div>
+
+      </button>
 
       <%= link_to "Quiero vender", vender_path, class: "btn btn-outline-dark btn-sm px-3" %>
     </div>

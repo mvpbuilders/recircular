@@ -1,8 +1,66 @@
-<h2>Resumen de compra</h2>
+<div class="container my-5">
+  <div class="row">
+    <!-- Columna izquierda: formulario -->
+    <div class="col-md-7">
+      <h2 class="h5 mb-4">Dirección de envío</h2>
 
-<p><strong>Producto:</strong> <%= @product.title %></p>
-<p><strong>Cantidad:</strong> <%= @order.quantity %></p>
-<p><strong>Total:</strong> $<%= number_with_delimiter(@order.total_amount) %></p>
-<p><strong>Email:</strong> <%= @order.email %></p>
+      <%= form_with url: orders_path, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "Email" %>
+          <%= f.email_field :email, placeholder: "mariafernanda@mail.com", class: "form-control", required: true %>
+        </div>
 
-<%= link_to "Volver al producto", product_path(@product), class: "btn btn-secondary mt-3" %>
+        <div class="mb-3">
+          <%= f.label :direccion, "Dirección de envío" %>
+          <%= f.text_field :direccion, placeholder: "Arenales 2456 - Palermo - CABA", class: "form-control", required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :telefono, "Teléfono de contacto" %>
+          <%= f.telephone_field :telefono, placeholder: "116-140-0489", class: "form-control", required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :envio, "Zona de envío" %><br>
+          <div class="form-check">
+            <%= f.radio_button :envio, 5000, id: "envio_caba", required: true %>
+            <%= f.label :envio_caba, "CABA (+$5.000 envío)", class: "form-check-label" %>
+          </div>
+          <div class="form-check">
+            <%= f.radio_button :envio, 7000, id: "envio_amba" %>
+            <%= f.label :envio_amba, "AMBA (+$7.000 envío)", class: "form-check-label" %>
+          </div>
+          <div class="form-check">
+            <%= f.radio_button :envio, 10000, id: "envio_otras" %>
+            <%= f.label :envio_otras, "Otras Zonas (coordinaremos vía WhatsApp)", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <%= f.submit "Confirmar y pagar", class: "btn btn-dark w-100 mt-4" %>
+      <% end %>
+    </div>
+
+    <!-- Columna derecha: resumen -->
+    <div class="col-md-5">
+      <div class="card p-4 rounded shadow-sm">
+        <h4 class="mb-4">Resumen del pedido</h4>
+
+        <% @cart_products.each do |product| %>
+          <div class="d-flex align-items-center mb-3">
+            <% if product.images.attached? %>
+              <%= image_tag url_for(product.images.first), alt: product.title, class: "rounded me-3", style: "width: 64px; height: 64px; object-fit: cover;" %>
+            <% end %>
+            <div>
+              <strong><%= product.title %></strong><br>
+              <span class="text-muted">$<%= number_with_delimiter(product.precio, delimiter: ".") %></span>
+            </div>
+          </div>
+        <% end %>
+
+        <hr>
+        <p class="mb-1"><strong>Envío:</strong> Se calcula al confirmar</p>
+        <p class="h5 mt-2"><strong>Total:</strong> $<%= number_with_delimiter(@total, delimiter: ".") %></p>
+      </div>
+    </div>
+  </div>
+</div>
