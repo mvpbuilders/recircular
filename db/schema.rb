@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_11_113429) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_14_112149) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_11_113429) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uso"
+    t.boolean "available", default: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
