@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'reset_cart', to: 'orders#reset_cart'
 
   post "/add_to_cart/:id", to: "session_cart#add_to_cart", as: :add_to_cart
+  delete 'remove_from_cart/:id', to: 'session_cart#remove_from_cart', as: 'remove_from_cart'
+
 
   resources :products, only: [:show]
 
