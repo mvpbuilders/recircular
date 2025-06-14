@@ -1,4 +1,5 @@
-class AccessoryProduct < ApplicationRecord
+# app/models/accessory_product.rb
+class AccessoryProduct < Product
   has_many_attached :images
 
   default_scope { where(tipo: "accesorios") }
