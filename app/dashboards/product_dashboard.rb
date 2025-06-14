@@ -36,4 +36,3 @@ class ProductDashboard < Administrate::BaseDashboard
     product.title || "Producto ##{product.id}"
   end
 end
-
