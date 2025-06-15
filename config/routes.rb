@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admin_users
   get 'explore/index'
   get 'search/index'
   root "home#index"
