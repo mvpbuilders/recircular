@@ -1,0 +1,26 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #ab0066;">🚨 Nueva orden confirmada</h2>
+
+  <p>Se ha confirmado una nueva compra en Recircular:</p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+
+  <h4>📦 Detalles de la orden:</h4>
+  <p><strong>Email del comprador:</strong> <%= @order.email %></p>
+
+  <ul>
+    <% @order.order_items.each do |item| %>
+      <li><%= item.product.title %> – $<%= number_with_delimiter(item.price, delimiter: ".") %></li>
+    <% end %>
+  </ul>
+
+  <p><strong>Total:</strong> $<%= number_with_delimiter(@order.total_amount, delimiter: ".") %></p>
+  <p><strong>Dirección:</strong> <%= @order.direccion %></p>
+  <p><strong>Teléfono:</strong> <%= @order.telefono %></p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+
+  <p>Revisar detalles en el panel de admin si es necesario.</p>
+
+  <p style="font-size: 14px; color: #999;">Recircular - Notificación automática</p>
+</div>

@@ -81,12 +81,19 @@ class OrdersController < ApplicationController
 
     if response[:success]
       payment.update!(status: :paid, payment_info: response[:body])
+      order.update!(status: :paid)
+
+      # 🔔 Envío de mails
+      OrderMailer.with(order: order).order_confirmation.deliver_later if order.email.present?
+      OrderMailer.with(order: order).admin_order_notification.deliver_later
+
       render json: { success: true, redirect_url: resume_order_path(order) }
     else
       payment.update!(status: :failed, payment_info: response[:body])
       render json: { success: false, message: "Error al procesar el pago" }
     end
   end
+
 
   def payment
     @order = Order.find(params[:id])

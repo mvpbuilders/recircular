@@ -1,0 +1,28 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #008a5c;">¡Gracias por tu compra en Circu!</h2>
+
+  <p>Hola <strong><%= @order.email %></strong>,</p>
+
+  <p>Recibimos tu orden correctamente. En breve nos pondremos en contacto para coordinar el envío.</p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+
+  <h4>🧾 Detalles de tu orden:</h4>
+  <ul>
+    <% @order.order_items.each do |item| %>
+      <li><%= item.product.title %> – $<%= number_with_delimiter(item.price, delimiter: ".") %></li>
+    <% end %>
+  </ul>
+
+  <p><strong>Total pagado:</strong> $<%= number_with_delimiter(@order.total_amount, delimiter: ".") %></p>
+  <p><strong>Dirección de entrega:</strong> <%= @order.direccion %></p>
+  <p><strong>Teléfono:</strong> <%= @order.telefono %></p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+
+  <p style="font-size: 14px; color: #666;">
+    Si tenés alguna duda, podés escribirnos respondiendo este email.
+  </p>
+
+  <p>Gracias por elegir <strong>Circu</strong> 🌱</p>
+</div>
