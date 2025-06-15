@@ -26,6 +26,14 @@
 
   <body>
     <%= render "shared/navbar" %>
+    <% if flash[:notice] %>
+      <div class="alert alert-success text-center m-0 py-2"><%= flash[:notice] %></div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="alert alert-danger text-center m-0 py-2"><%= flash[:alert] %></div>
+    <% end %>
+
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
       <div class="offcanvas-header">

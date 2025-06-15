@@ -24,7 +24,7 @@ class ExploreController < ApplicationController
 
   def by_owner
     @owner = params[:owner]
-    @products = Product.where(owner: @owner)
+    @products = Product.where(owner: @owner, available: true) # ⬅️ agregá esto
   end
 
   def owner_products
@@ -34,7 +34,7 @@ class ExploreController < ApplicationController
     all_products = [
       ClothingProduct, KidsProduct, UniformProduct,
       FurnitureProduct, AccessoryProduct, OtherProduct
-    ].flat_map { |klass| klass.where(owner: @owner) }
+    ].flat_map { |klass| klass.where(owner: @owner, available: true) } # ⬅️ agregá esto
 
     @products = all_products
     @products = @products.select { |p| p.tipo == params[:tipo] } if params[:tipo].present?

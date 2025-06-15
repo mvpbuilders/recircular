@@ -16,7 +16,10 @@
 
               <div>
                 <strong><%= product.title %></strong><br>
-                <span>$<%= product.precio %></span>
+                <span>$<%= product.precio %></span><br>
+                <% if !product.available %>
+                  <span class="text-danger small">Este producto ya no está disponible</span>
+                <% end %>
               </div>
             </div>
 
@@ -39,7 +42,19 @@
       </strong>
     </div>
 
-    <%= link_to "¡Me lo llevo!", checkout_orders_path, class: "btn btn-dark w-100 mt-3" %>
+    <% hay_no_disponibles = session[:cart].any? do |id, _|
+         product = Product.find_by(id: id.to_i)
+         product && !product.available
+       end %>
+
+    <%= link_to "¡Me lo llevo!", checkout_orders_path,
+                class: "btn btn-dark w-100 mt-3 #{'disabled' if hay_no_disponibles}" %>
+
+    <% if hay_no_disponibles %>
+      <p class="text-danger mt-2 small">
+        Uno o más productos ya no están disponibles. Eliminalos para continuar.
+      </p>
+    <% end %>
   </div>
 <% else %>
   <p>Tu carrito está vacío</p>

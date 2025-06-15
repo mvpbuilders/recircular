@@ -11,12 +11,19 @@ class OrdersController < ApplicationController
     cart = session[:cart] || {}
     products = Product.where(id: cart.keys)
 
+    # 🛑 Validación: si hay productos no disponibles, redirigir
+    unavailable_products = products.select { |p| !p.available }
+    if unavailable_products.any?
+      nombres = unavailable_products.map(&:title).join(", ")
+      redirect_to checkout_orders_path, alert: "Los siguientes productos ya no están disponibles: #{nombres}"
+      return
+    end
+
     # Costos desde el formulario
     envio = params[:envio].to_i
     email = params[:email]
     direccion = params[:direccion]
     telefono = params[:telefono]
-
 
     total = products.sum { |p| p.precio.to_i } + envio
 

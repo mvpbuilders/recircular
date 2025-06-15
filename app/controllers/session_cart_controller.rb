@@ -5,15 +5,20 @@ class SessionCartController < ApplicationController
   def add_to_cart
     session[:cart] ||= {}
 
-    product = Product.find(params[:id])
-    
-    # No agregar si ya está en el carrito
+    product = Product.find_by(id: params[:id])
+
+    if product.nil? || !product.available?
+      redirect_to root_path, alert: "El producto ya no está disponible."
+      return
+    end
+
     unless session[:cart].key?(product.id.to_s)
       session[:cart][product.id.to_s] = 1
     end
 
     redirect_to product_path(product), notice: "Producto agregado al carrito"
   end
+
 
 
   def remove_from_cart
