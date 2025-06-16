@@ -37,25 +37,20 @@
     </div>
   </section>
 
-
-
-
-
-
   <%# Secciones por categoría %>
   <% {
-    "Mejores prendas" => @best_clothing,
-    "Mejores muebles" => @best_furniture,
-    "Mejores productos Niños" => @best_kids,
-    "Mejores otros" => @best_others
+    "Buy Ropa" => @best_clothing,
+    "Buy Accesorios" => @best_accessory,
+    "Buy Zapatos" => @best_others,
+    "Buy Muebles & deco" => @best_furniture
   }.each do |title, collection| %>
     <div class="text-center mt-5 mb-4">
-      <h4 class="fw-bold text-uppercase mb-2"><%= title %></h4>
+      <h4 class="fw-bold mb-2"><%= title %></h4>
       <div style="width: 40px; height: 3px; background-color: #ccc; margin: 0 auto;"></div>
     </div>
-    <div class="product-scroll-container mb-5">
+    <div class="home-scroll-container mb-5">
       <% collection.each do |product| %>
-        <div class="product-card-wrapper">
+        <div class="home-card-wrapper">
           <%= render "products/product_card", product: product %>
         </div>
       <% end %>

@@ -44,7 +44,7 @@
     <!-- Resultados -->
     <div class="col-md-9">
       <% if @products.any? %>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
           <% @products.each do |product| %>
             <div class="col d-flex justify-content-center">
               <%= render partial: "products/product_card", locals: { product: product } %>

@@ -1,9 +1,11 @@
-<div class="product-card" onclick="window.location.href='<%= product_path(product) %>'">
+<% has_hover = product.images[1].present? %>
+
+<div class="product-card <%= 'has-hover' if has_hover %>" onclick="window.location.href='<%= product_path(product) %>'">
   <% if product.images.attached? %>
     <div class="product-image-wrapper">
-      <%= image_tag product.images[0].variant(resize_to_fill: [400, 500]), class: "product-image main", alt: product.title %>
-      <% if product.images[1] %>
-        <%= image_tag product.images[1].variant(resize_to_fill: [400, 500]), class: "product-image hover", alt: product.title %>
+      <%= image_tag product.images[0].variant(resize_to_fit: [400, 500]), class: "product-image main", alt: product.title %>
+      <% if has_hover %>
+        <%= image_tag product.images[1].variant(resize_to_fit: [400, 500]), class: "product-image hover", alt: product.title %>
       <% end %>
     </div>
   <% end %>
