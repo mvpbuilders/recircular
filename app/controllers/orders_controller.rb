@@ -42,7 +42,6 @@ class OrdersController < ApplicationController
         product: product,
         price: product.precio
       )
-      product.update!(available: false)
     end
 
     session[:cart] = {}
@@ -89,6 +88,10 @@ class OrdersController < ApplicationController
     if response[:success]
       payment.update!(status: :paid, payment_info: response[:body])
       order.update!(status: :paid)
+      order.order_items.each do |item|
+        item.product.update!(available: false)
+      end
+
 
       # 🔔 Envío de mails
       OrderMailer.with(order: order).order_confirmation.deliver_later if order.email.present?
