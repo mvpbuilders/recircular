@@ -35,6 +35,25 @@
         $<%= number_with_delimiter(@product.precio, delimiter: ".") %>
       </p>
       <p class="text-muted mb-2"><%= @product.description %></p>
+      <% if @product.tipo == "ropa" && @product.talle_ropa.present? %>
+        <p class="text-uppercase text-secondary small mb-2">TALLE ROPA:<strong> <%= @product.talle_ropa %></strong> </p>
+      <% elsif @product.tipo == "otros" && @product.talle_zapatilla.present? %>
+        <p class="text-uppercase text-secondary small mb-2">TALLE ZAPATILLA: <strong> <%= @product.talle_zapatilla %></strong> </p>
+      <% elsif @product.tipo == "muebles" && (@product.width.present? || @product.height.present? || @product.depth.present?) %>
+        <p class="text-uppercase text-secondary small mb-2">MEDIDAS</p>
+        <ul class="list-unstyled mb-3">
+          <% if @product.width.present? %>
+            <li>ANCHO: <%= @product.width %> cm</li>
+          <% end %>
+          <% if @product.height.present? %>
+            <li>ALTO: <%= @product.height %> cm</li>
+          <% end %>
+          <% if @product.depth.present? %>
+            <li>PROFUNDIDAD: <%= @product.depth %> cm</li>
+          <% end %>
+        </ul>
+      <% end %>
+
 
       <% if @product.condition.present? %>
         <p class="mb-3"><strong>Condición:</strong> <%= @product.condition %></p>
