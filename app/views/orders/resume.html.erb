@@ -33,13 +33,15 @@
         <p><strong>Teléfono:</strong> <%= @order.telefono %></p>
         <p><strong>Zona de envío:</strong>
           <%=
-            case @order.envio
+            case @order.envio.to_i
+            when 1 then "Retiro GRATIS x Vadeka"
             when 9900 then "CABA (+$9.900)"
-            when 12500 then "AMBA (+$7)"
+            when 12500 then "AMBA (+$12.500)"
             when 0 then "Otras Zonas (coordinaremos vía WhatsApp)"
             else "No especificada"
             end
           %>
+
         </p>
 
         <%= link_to "Volver a la tienda", root_path, class: "btn btn-outline-dark mt-4" %>

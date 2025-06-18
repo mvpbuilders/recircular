@@ -23,6 +23,11 @@
         <div class="mb-3">
           <%= f.label :envio, "Zona de envío" %><br>
           <div class="form-check">
+            <%= f.radio_button :envio, 1, id: "gratis_vadeka", required: true %>
+            <%= f.label :gratis_vadeka, "Retiro GRATIS x Vadeka", class: "form-check-label" %>
+
+          </div>
+          <div class="form-check">
             <%= f.radio_button :envio, 9900, id: "envio_caba", required: true %>
             <%= f.label :envio_caba, "CABA (+$9.900)", class: "form-check-label" %>
           </div>

@@ -28,11 +28,12 @@ class OrdersController < ApplicationController
 
     # Costos desde el formulario
     envio = params[:envio].to_i
+    envio_costo = envio == 1 ? 0 : envio
     email = params[:email]
     direccion = params[:direccion]
     telefono = params[:telefono]
 
-    total = products.sum { |p| p.precio.to_i } + envio
+    total = products.sum { |p| p.precio.to_i } + envio_costo
 
     order = Order.create!(
       total_amount: total,
