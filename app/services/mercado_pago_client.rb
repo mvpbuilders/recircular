@@ -141,7 +141,7 @@ class MercadoPagoClient
 
 
   def create_preference(order, client, params, global_id)
-    sdk = Mercadopago::SDK.new(Rails.application.credentials.dig(:mercado_pago, :access_token))
+    sdk = Mercadopago::SDK.new(Rails.application.credentials.dig(:mercadopago, :access_token))
     
     # Create a preference object
     preference_data = {
