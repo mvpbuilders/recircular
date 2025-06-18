@@ -150,7 +150,9 @@
         <% elsif @tipo == "otros" %>
           <div class="mb-3">
             <%= label_tag :talle_zapatilla, "Talle de zapatilla" %>
-            <%= select_tag :talle_zapatilla, options_for_select(["", "35", "36", "37", "38", "39", "40", "41", "42", "43"], params[:talle_zapatilla]), class: "form-select" %>
+            <%= select_tag :talle_zapatilla,
+              options_for_select([""] + (@talles_disponibles || []), params[:talle_zapatilla]),
+              class: "form-select" %>
           </div>
 
           <div class="mb-3">

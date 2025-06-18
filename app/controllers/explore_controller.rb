@@ -13,8 +13,11 @@ class ExploreController < ApplicationController
                    UniformProduct.where(available: true)
                  when "accesorios"
                    AccessoryProduct.where(available: true)
-                 when "otros"
-                   OtherProduct.where(tipo: [nil, "otros"], available: true)
+                when "otros"
+                  scope = OtherProduct.where(tipo: [nil, "otros"], available: true)
+                  @talles_disponibles = scope.pluck(:talle_zapatilla).compact.uniq.sort
+                  scope
+
                  else
                    Product.none
                  end
