@@ -150,7 +150,7 @@ class MercadoPagoClient
       items: [
         {
           title: "Pago de Orden ##{order.id}",
-          unit_price: order.total_amount.to_f / 100,
+          unit_price: order.total_amount.to_f,
           quantity: 1,
         },
       ],
