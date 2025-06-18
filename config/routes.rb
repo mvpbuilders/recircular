@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root "home#index"
   get "search", to: "search#index", as: :search
   get 'explore', to: 'explore#index', as: :explore
+  get 'explore/caro', to: 'explore#owner_products', defaults: { owner: 'Caro' }, as: :explore_caro
   get 'explore/:tipo', to: 'explore#index', as: :explore_tipo
   get "explore/by_owner", to: "explore#by_owner", as: :explore_by_owner
   get "vender", to: "pages#vender", as: :vender

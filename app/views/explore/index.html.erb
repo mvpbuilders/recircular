@@ -11,7 +11,7 @@
   <div class="row">
     <!-- Filtros -->
     <div class="collapse d-md-block col-md-3 mb-4" id="filtrosCollapse">
-      <%= form_with url: (@tipo.present? ? explore_tipo_path(@tipo) : explore_path), method: :get, local: true do %>
+      <%= form_with url: (request.path.include?("/owner/") ? owner_products_path(@owner) : (@tipo.present? ? explore_tipo_path(@tipo) : explore_path)), method: :get, local: true do %>
         <%= hidden_field_tag :tipo, @tipo %>
 
         <% if @tipo == "ropa" %>
@@ -113,8 +113,11 @@
 
           <div class="mb-3">
             <%= label_tag :subtipo, "Categoría" %>
-            <%= select_tag :subtipo, options_for_select(["", "Sweaters y buzos", "Pantalones", "Vestidos", "Sillones", "Anillos", "Carteras"], params[:subtipo]), class: "form-select" %>
+            <%= select_tag :subtipo,
+                  options_for_select([""] + (@subtipos_disponibles || []), params[:subtipo]),
+                  class: "form-select" %>
           </div>
+
 
           <div class="mb-3">
             <%= label_tag :talle_ropa, "Talle de ropa" %>
