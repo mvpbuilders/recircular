@@ -2,8 +2,6 @@
 
 # rubocop:disable all
 class PaymentsController < ApplicationController
-  skip_before_action :authenticate_user!, only: :mp_hook
-  skip_before_action :verify_authenticity_token, only: :mp_hook
 
   def mp_hook
     payment_id = Payment.all.find_by("payment_info LIKE ?", "%\"id\"=>#{params["data"]["id"]}%")&.id
