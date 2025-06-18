@@ -34,9 +34,9 @@
         <p><strong>Zona de envío:</strong>
           <%=
             case @order.envio
-            when 5 then "CABA (+$5)"
-            when 7 then "AMBA (+$7)"
-            when 10 then "Otras Zonas (+10)"
+            when 9900 then "CABA (+$9.900)"
+            when 12500 then "AMBA (+$7)"
+            when 0 then "Otras Zonas (coordinaremos vía WhatsApp)"
             else "No especificada"
             end
           %>

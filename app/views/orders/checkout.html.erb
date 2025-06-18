@@ -23,15 +23,15 @@
         <div class="mb-3">
           <%= f.label :envio, "Zona de envío" %><br>
           <div class="form-check">
-            <%= f.radio_button :envio, 5, id: "envio_caba", required: true %>
-            <%= f.label :envio_caba, "CABA (+$5 envío)", class: "form-check-label" %>
+            <%= f.radio_button :envio, 9900, id: "envio_caba", required: true %>
+            <%= f.label :envio_caba, "CABA (+$9.900)", class: "form-check-label" %>
           </div>
           <div class="form-check">
-            <%= f.radio_button :envio, 7, id: "envio_amba" %>
-            <%= f.label :envio_amba, "AMBA (+$7 envío)", class: "form-check-label" %>
+            <%= f.radio_button :envio, 12500, id: "envio_amba" %>
+            <%= f.label :envio_amba, "Gran Buenos Aires (+$12.500 envío)", class: "form-check-label" %>
           </div>
           <div class="form-check">
-            <%= f.radio_button :envio, 10, id: "envio_otras" %>
+            <%= f.radio_button :envio, 0, id: "envio_otras" %>
             <%= f.label :envio_otras, "Otras Zonas (coordinaremos vía WhatsApp)", class: "form-check-label" %>
           </div>
         </div>
