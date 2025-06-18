@@ -142,7 +142,6 @@ class MercadoPagoClient
 
   def create_preference(order, client, params, global_id)
     access_token = Rails.application.credentials.dig(:mercadopago, :access_token) || ENV['MERCADO_PAGO_ACCESS_TOKEN']
-    puts "access token: #{access_token}"
     sdk = Mercadopago::SDK.new(access_token)
     
     # Create a preference object
@@ -151,7 +150,7 @@ class MercadoPagoClient
       items: [
         {
           title: "Pago de Orden ##{order.id}",
-          unit_price: order.amount_cents.to_f / 100,
+          unit_price: order.total_amount.to_f / 100,
           quantity: 1,
         },
       ],
