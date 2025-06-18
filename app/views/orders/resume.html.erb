@@ -5,7 +5,7 @@
         <h1 class="h4 text-success mb-3">¡Gracias por tu compra!</h1>
 
         <p class="mb-1">Orden #<strong><%= @order.id %></strong></p>
-        <p>Total: <strong>$<%= number_with_delimiter(@order.total_amount, delimiter: ".") %></strong></p>
+        <p>Total: <strong>$<%= number_with_delimiter(@order.total_amount.to_i, delimiter: ".") %></strong></p>
 
         <hr class="my-4">
 

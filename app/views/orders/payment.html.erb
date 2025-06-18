@@ -4,7 +4,7 @@
     <!-- Columna izquierda: formulario de pago -->
     <div class="col-md-7">
       <h2 class="h5 mb-3">Pago de la orden #<%= @order.id %></h2>
-      <p class="mb-4">Total a pagar: <strong>$<%= number_with_delimiter(@order.total_amount, delimiter: ".") %></strong></p>
+      <p class="mb-4">Total a pagar: <strong>$<%= number_with_delimiter(@order.total_amount.to_i, delimiter: ".") %></strong></p>
 
       <div id="walletBrick_container" class="mb-4"></div>
       <div id="cardPaymentBrick_container" class="mb-4"></div>
@@ -23,14 +23,14 @@
             <% end %>
             <div>
               <strong><%= item.product.title %></strong><br>
-              <span class="text-muted">$<%= number_with_delimiter(item.product.precio, delimiter: ".") %></span>
+              <span class="text-muted">$<%= number_with_delimiter(item.product.precio.to_i, delimiter: ".") %></span>
             </div>
           </div>
         <% end %>
 
         <hr>
         <p class="mb-1"><strong>Envío:</strong> Incluido</p>
-        <p class="h5 mt-2"><strong>Total:</strong> $<%= number_with_delimiter(@order.total_amount, delimiter: ".") %></p>
+        <p class="h5 mt-2"><strong>Total:</strong> $<%= number_with_delimiter(@order.total_amount.to_i, delimiter: ".") %></p>
       </div>
     </div>
 
