@@ -64,7 +64,9 @@ class OrdersController < ApplicationController
       status: :pending,
       payment_method: :mercadopago
     )
-    client = MercadoPagoClient.new(access_token: ENV["MERCADO_PAGO_ACCESS_TOKEN"])
+    client = MercadoPagoClient.new(
+      access_token: Rails.application.credentials.dig(:mercadopago, :access_token) || ENV['MERCADO_PAGO_ACCESS_TOKEN']
+    )
 
     response = client.create_preference(order, nil, params, payment.id)
 
@@ -73,7 +75,9 @@ class OrdersController < ApplicationController
 
   def process_payment
     order = Order.find(params[:id])
-    client = MercadoPagoClient.new(access_token: ENV["MERCADO_PAGO_ACCESS_TOKEN"])
+    client = MercadoPagoClient.new(
+      access_token: Rails.application.credentials.dig(:mercadopago, :access_token) || ENV['MERCADO_PAGO_ACCESS_TOKEN']
+    )
 
     payment = order.payment || order.create_payment!(
       price_cents: order.total_amount.to_i * 100,
@@ -104,9 +108,8 @@ class OrdersController < ApplicationController
     end
   end
 
-
   def payment
     @order = Order.find(params[:id])
-    @public_key = ENV["MERCADO_PAGO_PUBLIC_KEY"]
+    @public_key = Rails.application.credentials.dig(:mercadopago, :public_key) || ENV["MERCADO_PAGO_PUBLIC_KEY"]
   end
 end
