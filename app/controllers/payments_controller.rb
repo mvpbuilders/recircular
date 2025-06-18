@@ -1,28 +1,38 @@
+# frozen_string_literal: true
+
+# rubocop:disable all
 class PaymentsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!, only: :mp_hook
+  skip_before_action :verify_authenticity_token, only: :mp_hook
 
   def mp_hook
-    puts "data ingresa por webhook: #{params}"
-    puts "data obtenida: #{params.dig("data", "id")&.to_s}"
-    mp_payment_id = params.dig("data", "id")&.to_s
-    return head :bad_request unless mp_payment_id.present?
-
-    puts "mp_payment_id: #{mp_payment_id}"
-    payment = Payment.find_by("payment_info ->> 'id' = ?", mp_payment_id)
-    return head :not_found unless payment
-
-    access_token = Rails.application.credentials.dig(:mercadopago, :access_token) || ENV['MERCADO_PAGO_ACCESS_TOKEN']
-    client = MercadoPagoClient.new(access_token:)
-    payment_data = client.get_payment(mp_payment_id)
-
-    if payment_data && payment_data["status"] == "approved"
-      payment.update!(status: :paid)
-      payment.order.update!(status: "paid") if payment.order&.pending?
+    payment_id = Payment.all.find_by("payment_info LIKE ?", "%\"id\"=>#{params["data"]["id"]}%")&.id
+    puts "payment_id desde credit/debit form MP: #{payment_id&.inspect}"
+    @payment = Payment.find (params[:g_id] || payment_id)
+    puts "payment: #{@payment.inspect}"
+    puts "payment type: #{params[:type]}"
+    if params[:topic] == "merchant_order" || params[:topic] == "payment"
+    elsif params[:type] == "payment" && params["data"]["id"]
+      mp_client = MercadoPagoClient.new(
+        access_token: Rails.application.credentials.dig(:mercadopago, :access_token),
+      )
+      payment_data = mp_client.get_payment(params["data"]["id"])
+      puts "payment data: #{payment_data.inspect}"
+      if payment_data["status"] == "approved"
+        if !@payment.paid? && @payment&.order&.status == "pending"
+          @payment&.order&.update(status: "paid")
+          @payment.paid!
+          # Rails.logger.info("Sending confirmation email to #{@payment.order.client.email}")
+          # OrderMailer.with(order: @payment.order, recipient: @payment.order.client).order_confirmation.deliver_later
+        end
+      else
+        @payment = Payment.find params[:g_id]
+        @payment.failed!
+      end
     else
-      payment.update!(status: :failed)
+      @payment.failed!
     end
-
     head :ok
   end
-
 end
+# rubocop:enable all

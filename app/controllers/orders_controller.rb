@@ -104,9 +104,9 @@ class OrdersController < ApplicationController
       end
 
 
-      # 🔔 Envío de mails
-      OrderMailer.with(order: order).order_confirmation.deliver_later if order.email.present?
-      OrderMailer.with(order: order).admin_order_notification.deliver_later
+      # # 🔔 Envío de mails
+      # OrderMailer.with(order: order).order_confirmation.deliver_later if order.email.present?
+      # OrderMailer.with(order: order).admin_order_notification.deliver_later
 
       render json: { success: true, redirect_url: resume_order_path(order) }
     else
