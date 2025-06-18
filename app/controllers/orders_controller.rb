@@ -11,6 +11,13 @@ class OrdersController < ApplicationController
     cart = session[:cart] || {}
     products = Product.where(id: cart.keys)
 
+    if products.empty?
+      redirect_to checkout_orders_path, alert: "Tu carrito está vacío. Agregá productos antes de continuar."
+      return
+    end
+    cart = session[:cart] || {}
+    products = Product.where(id: cart.keys)
+
     # 🛑 Validación: si hay productos no disponibles, redirigir
     unavailable_products = products.select { |p| !p.available }
     if unavailable_products.any?
