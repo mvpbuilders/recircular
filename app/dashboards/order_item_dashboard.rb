@@ -11,7 +11,7 @@ class OrderItemDashboard < Administrate::BaseDashboard
     id: Field::Number,
     order: Field::BelongsTo,
     price: Field::Number,
-    product: Field::BelongsTo,
+    product: Field::BelongsTo.with_options(searchable: true, searchable_field: :title),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -66,12 +66,5 @@ class OrderItemDashboard < Administrate::BaseDashboard
   # def display_resource(order_item)
   #   "OrderItem ##{order_item.id}"
   # end
-  def display_resource(order_item)
-    product = order_item.product
-    return "Producto eliminado" unless product
-
-    "#{product.title} - $#{order_item.price}"
-  end
-
 
 end

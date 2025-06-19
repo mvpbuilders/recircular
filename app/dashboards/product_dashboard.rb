@@ -33,6 +33,7 @@ class ProductDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(product)
-    product.title || "Producto ##{product.id}"
+    "##{product.id} – #{product.title}"
   end
+
 end

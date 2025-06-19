@@ -26,9 +26,17 @@ Rails.application.routes.draw do
     resources :uniform_products
     resources :other_products
     resources :accessory_products
-    resources :orders
+
+    resources :orders do
+      collection do
+        get :pending
+        get :paid
+      end
+    end
+
     root to: "products#index"
   end
+
 
   resources :orders, only: [:create] do
     collection do

@@ -1,0 +1,35 @@
+<%=
+  render("index_header",
+    resources: resources,
+    search_term: search_term,
+    page: page,
+    show_search_bar: show_search_bar,
+  )
+%>
+
+<section class="main-content__body main-content__body--flush">
+  <nav>
+    <ul class="nav-list-tab mb-4">
+      <li class="nav-item-tab mx-2">
+        <%= link_to 'Todos', admin_orders_path, class: "nav-link-tab #{'active' if current_page?(admin_orders_path)}" %>
+      </li>
+      <li class="nav-item-tab mx-2">
+        <%= link_to 'Pendientes', pending_admin_orders_path, class: "nav-link-tab #{'active' if current_page?(pending_admin_orders_path)}" %>
+      </li>
+      <li class="nav-item-tab mx-2">
+        <%= link_to 'Pagados', paid_admin_orders_path, class: "nav-link-tab #{'active' if current_page?(paid_admin_orders_path)}" %>
+      </li>
+    </ul>
+  </nav>
+
+  <%= render(
+    "collection",
+    collection_presenter: page,
+    collection_field_name: resource_name,
+    page: page,
+    resources: resources,
+    table_title: "Orders"
+  ) %>
+
+  <%= paginate resources, param_name: '_page' %>
+</section>

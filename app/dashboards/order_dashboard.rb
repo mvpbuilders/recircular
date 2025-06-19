@@ -7,7 +7,10 @@ class OrderDashboard < Administrate::BaseDashboard
     total_amount: Field::Number.with_options(prefix: "$", decimals: 2),
     status: Field::String,
     direccion: Field::String,
-    envio: Field::Number,
+    envio: Field::String.with_options(
+      searchable: false,
+      sortable: false
+    ),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -27,5 +30,8 @@ class OrderDashboard < Administrate::BaseDashboard
 
   FORM_ATTRIBUTES = [] # no se edita desde admin
 
-  COLLECTION_FILTERS = {}.freeze
+    COLLECTION_FILTERS = {
+    paid:    ->(orders) { orders.where(status: "paid") },
+    pending: ->(orders) { orders.where(status: "pending") }
+  }.freeze
 end
