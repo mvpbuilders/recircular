@@ -2,7 +2,7 @@ require "administrate/base_dashboard"
 
 class ProductDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
-    order_items: Field::HasMany,
+    paid_order_items: Field::HasMany,
     images: Field::ActiveStorage,
     id: Field::Number,
     title: Field::String,

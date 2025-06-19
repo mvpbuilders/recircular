@@ -32,6 +32,6 @@ class OrderDashboard < Administrate::BaseDashboard
     COLLECTION_FILTERS = {
     paid:    ->(orders) { orders.where(status: "paid") },
     pending: ->(orders) { orders.where(status: "pending") }
-  }.freeze
+  }.freeze  
 
 end
