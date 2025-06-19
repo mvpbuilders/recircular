@@ -1,3 +1,5 @@
+require "administrate/base_dashboard"
+
 class OrderDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
@@ -7,10 +9,7 @@ class OrderDashboard < Administrate::BaseDashboard
     total_amount: Field::Number.with_options(prefix: "$", decimals: 2),
     status: Field::String,
     direccion: Field::String,
-    envio: Field::String.with_options(
-      searchable: false,
-      sortable: false
-    ),
+    envio_con_label: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -34,4 +33,5 @@ class OrderDashboard < Administrate::BaseDashboard
     paid:    ->(orders) { orders.where(status: "paid") },
     pending: ->(orders) { orders.where(status: "pending") }
   }.freeze
+
 end
