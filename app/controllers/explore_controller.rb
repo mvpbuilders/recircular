@@ -4,17 +4,17 @@ class ExploreController < ApplicationController
 
     base_scope = case @tipo
                  when "ropa"
-                   ClothingProduct.where(available: true)
+                   ClothingProduct
                  when "muebles"
-                   FurnitureProduct.where(available: true)
+                   FurnitureProduct
                  when "niños"
-                   KidsProduct.where(available: true)
+                   KidsProduct
                  when "uniformes"
-                   UniformProduct.where(available: true)
+                   UniformProduct
                  when "accesorios"
-                   AccessoryProduct.where(available: true)
+                   AccessoryProduct
                 when "otros"
-                  scope = OtherProduct.where(tipo: [nil, "otros"], available: true)
+                  scope = OtherProduct.where(tipo: [nil, "otros"])
                   @talles_disponibles = scope.pluck(:talle_zapatilla).compact.uniq.sort
                   scope
 
@@ -27,7 +27,7 @@ class ExploreController < ApplicationController
 
   def by_owner
     @owner = params[:owner]
-    @products = Product.where(owner: @owner, available: true) # ⬅️ agregá esto
+    @products = Product.where(owner: @owner) # ⬅️ agregá esto
   end
 
   
@@ -38,7 +38,7 @@ class ExploreController < ApplicationController
     all_products = [
       ClothingProduct, KidsProduct, UniformProduct,
       FurnitureProduct, AccessoryProduct, OtherProduct
-    ].flat_map { |klass| klass.where(owner: @owner, available: true) }
+    ].flat_map { |klass| klass.where(owner: @owner) }
 
     @products = all_products
 

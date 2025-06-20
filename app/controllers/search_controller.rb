@@ -3,7 +3,7 @@ class SearchController < ApplicationController
     query = params[:query].to_s.strip.downcase
 
     # Podés ajustar este scope si querés buscar en múltiples modelos más adelante
-    base_scope = Product.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{query}%", "%#{query}%").where(available: true)
+    base_scope = Product.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", "%#{query}%", "%#{query}%")
 
     # Agregamos filtros dinámicos según params
     base_scope = base_scope.where(tipo: params[:tipo]) if params[:tipo].present?

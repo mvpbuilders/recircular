@@ -243,3 +243,25 @@ input[type="range"].form-range::-ms-thumb {
   border: none;
   border-bottom: 1px solid #ddd;
 }
+
+
+.sold-out {
+  opacity: 0.6;
+  position: relative;
+  pointer-events: none;
+}
+
+.sold-banner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 8px 16px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  text-transform: uppercase;
+  z-index: 5;
+}

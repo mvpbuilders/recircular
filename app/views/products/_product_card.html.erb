@@ -1,17 +1,31 @@
 <% has_hover = product.images[1].present? %>
+<div class="product-card <%= 'has-hover' if has_hover %> <%= 'sold-out' unless product.available? %>">
+  <% if product.available? %>
+    <div onclick="window.location.href='<%= product_path(product) %>'">
+  <% end %>
 
-<div class="product-card <%= 'has-hover' if has_hover %>" onclick="window.location.href='<%= product_path(product) %>'">
   <% if product.images.attached? %>
-    <div class="product-image-wrapper">
-      <%= image_tag product.images[0].variant(resize_to_fit: [400, 500]), class: "product-image main", alt: product.title %>
+    <div class="product-image-wrapper position-relative">
+      <%= image_tag product.images[0].variant(resize_to_fit: [400, 500]),
+                    class: "product-image main w-100", alt: product.title %>
+
       <% if has_hover %>
-        <%= image_tag product.images[1].variant(resize_to_fit: [400, 500]), class: "product-image hover", alt: product.title %>
+        <%= image_tag product.images[1].variant(resize_to_fit: [400, 500]),
+                      class: "product-image hover w-100", alt: product.title %>
+      <% end %>
+
+      <% unless product.available? %>
+        <div class="sold-banner">Sold Out</div>
       <% end %>
     </div>
   <% end %>
 
-  <div class="product-info">
-    <p class="product-title"><%= product.title %></p>
-    <p class="product-price text-dark">$<%= number_with_delimiter(product.precio, delimiter: ".") %></p>
+  <div class="product-info text-center mt-2">
+    <p class="product-title mb-1"><%= product.title %></p>
+    <p class="product-price fw-bold">$<%= number_with_delimiter(product.precio, delimiter: ".") %></p>
   </div>
+
+  <% if product.available? %>
+    </div>
+  <% end %>
 </div>
